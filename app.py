@@ -17,7 +17,7 @@ from flask_login import (
     login_user,
 )
 from flask_sqlalchemy import SQLAlchemy
-import os
+
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY='your secret here', 
@@ -26,7 +26,7 @@ app.config.from_mapping(
 app.permanent_session_lifetime = timedelta(minutes=30)
 db = SQLAlchemy(app)
 config = dotenv_values('.env')
-client = Client(config['ACCOUNT_SID'],config['AUTH_TOKEN'])
+client = Client(config['ACCOUNT_SID'], config['AUTH_TOKEN'])
 
 login_manager = LoginManager()
 login_manager.init_app(app)

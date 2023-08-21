@@ -1,4 +1,5 @@
-enviroment/
+
 keyss.py
 __pycache__
 instance/
+.env
