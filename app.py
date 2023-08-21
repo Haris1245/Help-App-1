@@ -96,7 +96,7 @@ def index():
                 to = keyss.my_number
                 )
 
-    return render_template('index.html', content=message)
+    return render_template('index.html', content=message, name = current_user.username)
 
 if __name__ == "__main__":
     app.run(debug=True)
