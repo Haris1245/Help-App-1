@@ -1,4 +1,4 @@
-import keyss
+from dotenv import load_dotenv, dotenv_values
 from twilio.rest import Client
 from datetime import timedelta
 from flask import (
@@ -17,7 +17,7 @@ from flask_login import (
     login_user,
 )
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY='your secret here', 
@@ -25,8 +25,8 @@ app.config.from_mapping(
 )
 app.permanent_session_lifetime = timedelta(minutes=30)
 db = SQLAlchemy(app)
-
-client = Client(keyss.account_sid, keyss.auth_token)
+config = dotenv_values('.env')
+client = Client(config['ACCOUNT_SID'],config['AUTH_TOKEN'])
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -83,17 +83,17 @@ def index():
         msgval = request.form.get('msg')
         if msgval:
             message = client.messages.create(
-            body = msgval,
-            from_ = keyss.twillio_number,
-            to = keyss.my_number
+            body = current_user.username + "-" +  msgval,
+            from_ = config['TWILIO_NUMBER'],
+            to = config['MY_NUMBER']
             )
         else:
             msgvall = request.form.get('exa')
             if msgvall:
                 message = client.messages.create(
-                body = msgvall,
-                from_ = keyss.twillio_number,
-                to = keyss.my_number
+                body = current_user.username + "-" +  msgvall,
+                from_ = config['TWILIO_NUMBER'],
+                to = config['MY_NUMBER']
                 )
 
     return render_template('index.html', content=message, name = current_user.username)
